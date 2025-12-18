@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --font-poppins: "Poppins", sans-serif;
+}
+
+button {
+    @apply cursor-pointer;
+}
+
+:root {
+  --font-display: 'Urbanist', sans-serif;
+  --breakpoint-3xl: 1920px;
+  --color-primary: #FF9324;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-display);
+  }
+
+  body {
+    background-color: #fcfbfc;
+  }
+}
+
+/* Custom smooth scrollbar */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #c7d2fe; /* light indigo */
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #818cf8; /* darker indigo */
+}
