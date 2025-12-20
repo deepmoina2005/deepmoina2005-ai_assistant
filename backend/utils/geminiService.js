@@ -1,4 +1,4 @@
-import "dotenv/config"
+import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -221,25 +221,5 @@ Instructions:
   } catch (error) {
     console.error("Gemini API Error (Explain Concept):", error);
     throw new Error("Failed to generate concept explanation");
-  }
-};
-
-export const generateBlogTitle = async (prompt) => {
-  const instruction = `
-    Generate a catchy, unique, SEO-friendly blog title.
-    Keep it under 60 characters.
-    Topic: ${prompt}
-  `;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-lite",
-      contents: instruction,
-    });
-
-    return response.text.trim();
-  } catch (error) {
-    console.error("Gemini API Error (Blog Title):", error);
-    throw new Error("Failed to generate blog title");
   }
 };

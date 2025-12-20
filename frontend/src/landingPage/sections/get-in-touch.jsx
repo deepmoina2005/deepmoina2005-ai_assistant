@@ -12,7 +12,7 @@ async function handleSubmit(e) {
     const formData = new FormData(form);
 
     const data = {
-      access_key: "842a616a-6a31-4bec-882e-59d663ff6a5a",
+      access_key: "48be0f78-62a2-429b-a8eb-be35adb70a1f",
       name: formData.get("name"),
       email: formData.get("email"),
       message: formData.get("message"),

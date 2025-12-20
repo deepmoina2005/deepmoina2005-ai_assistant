@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -9,16 +9,8 @@ import {
   LogOut,
   User,
   X,
-  SquarePen,
   Hash,
-  Image,
   Globe,
-  Eraser,
-  Scissors,
-  Code2,
-  BarChart,
-  CodeXml,
-  BookOpen,
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
@@ -36,22 +28,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const navLinks = [
     { to: "/dashboard", icon: LayoutDashboard, text: "Dashboard" },
 
-        { to: "/documents", icon: FileText, text: "Documents" },
-        { to: "/flashcards", text: "Flashcards", icon: Layers },
-
-
-        { to: "/write-article", text: "Write Article", icon: Hash },
-        
+    { to: "/documents", icon: FileText, text: "Documents" },
+    { to: "/flashcards", text: "Flashcards", icon: Layers },
+    { to: "/write-article", text: "Write Article", icon: Hash },
     { to: "/generate-images", icon: Globe, text: "Generate Images" },
-    // {
-    //   label: "Code Tools",
-    //   Icon: Code2,
-    //   subLinks: [
-    //     { to: "/explain-code", label: "Explain Code", Icon: Layers },
-    //     { to: "/code-convert", label: "Convert Code", Icon: BarChart },
-    //     { to: "/code-optimize", label: "Optimize Code", Icon: CodeXml },
-    //   ],
-    // },
+   
     { to: "/profile", icon: User, text: "Profile" },
   ];
 

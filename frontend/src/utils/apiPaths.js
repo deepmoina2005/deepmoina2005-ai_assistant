@@ -23,11 +23,7 @@ export const API_PATHS = {
     GENERATE_SUMMARY: "/api/ai/generate-summary",
     GENERATE_ARTICLE: "/api/ai/generate-article",
     GENERATE_IMAGE: "/api/ai/generate-image",
-    GENERATE_BLOG_TITLE: "/api/ai/generate-blog-title",
-    CHAT: "/api/ai/chat",
     EXPLAIN_CONCEPT: "/api/ai/explain-concept",
-    REMOVE_BACKGROUND: "/api/ai/remove-background",
-    REMOVE_OBJECT: "/api/ai/remove-object",
   },
 
   ARTICLE: {

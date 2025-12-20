@@ -60,7 +60,6 @@ app.use('/api/quizzes', quizRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/images', imageRoutes);
-
 app.use(errorHandler);
 
 

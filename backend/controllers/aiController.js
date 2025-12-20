@@ -5,10 +5,6 @@ import {
 } from "../utils/clipdropService.js";
 import { v2 as cloudinary } from "cloudinary";
 
-// ----------------------------
-// Generate Flashcards
-// POST /api/ai/generate-flashcards
-// ----------------------------
 export const generateFlashcards = async (req, res, next) => {
   try {
     const { documentId, count = 10 } = req.body;
@@ -83,10 +79,6 @@ export const generateFlashcards = async (req, res, next) => {
   }
 };
 
-// ----------------------------
-// Generate Quiz
-// POST /api/ai/generate-quiz
-// ----------------------------
 export const generateQuiz = async (req, res, next) => {
   try {
     const { 
@@ -190,10 +182,6 @@ export const generateQuiz = async (req, res, next) => {
   }
 };
 
-// ----------------------------
-// Generate Summary
-// POST /api/ai/generate-summary
-// ----------------------------
 export const generateSummary = async (req, res, next) => {
   try {
     const { documentId } = req.body;
@@ -239,7 +227,6 @@ export const generateSummary = async (req, res, next) => {
   }
 };
 
-// POST /api/ai/explain-concept
 export const explainConcept = async (req, res, next) => {
     try {
         const { documentId, concept } = req.body;
@@ -270,10 +257,6 @@ export const explainConcept = async (req, res, next) => {
     }
 };
 
-// ----------------------------
-// Generate Article
-// POST /api/ai/generate-article
-// ----------------------------
 export const generateArticle = async (req, res, next) => {
   try {
     const userId = req.user?.id; // make sure user is authenticated
@@ -314,48 +297,6 @@ export const generateArticle = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
-  }
-};
-
-/* ---------------------------------------------------------
-   GENERATE BLOG TITLE (SAVE IN DATABASE)
---------------------------------------------------------- */
-export const generateBlogTitle = async (req, res) => {
-  try {
-    const userId = req.user?.id; // ✅ correct authentication source
-    const { prompt } = req.body;
-
-    if (!prompt || !prompt.trim()) {
-      return res.status(400).json({
-        success: false,
-        error: "Prompt is required",
-      });
-    }
-
-    // --- Generate Title using Gemini service ---
-    const title = await geminiService.generateBlogTitle(prompt);  // ✅ fixed service name
-
-    // --- Save to Database ---
-    await pool.query(
-      `INSERT INTO creations (user_id, prompt, content, type)
-       VALUES (?, ?, ?, ?)`,
-      [userId, prompt, title, "blogTitle"]
-    );
-
-    // --- Success Response ---
-    res.status(200).json({
-      success: true,
-      data: { prompt, title },
-      message: "Blog title generated successfully",
-    });
-
-  } catch (error) {
-    console.error("Generate Blog Title Error:", error);
-
-    res.status(500).json({
-      success: false,
-      error: "Blog title generation failed",
-    });
   }
 };
 
@@ -413,97 +354,6 @@ export const generateImage = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Generate Image Error:", error);
-    next(error);
-  }
-};
-
-// Remove Background API
-// POST /api/ai/remove-background
-export const removeBackground = async (imageBase64) => {
-  try {
-    let base64Data;
-    // If imageBase64 is an object like { data, type }
-    if (typeof imageBase64 === "object" && imageBase64.data) {
-      base64Data = imageBase64.data;
-    } else if (typeof imageBase64 === "string") {
-      base64Data = imageBase64;
-      // Remove data URL prefix if present
-      if (base64Data.startsWith("data:")) {
-        base64Data = base64Data.split(",")[1];
-      }
-    } else {
-      throw new Error("Invalid imageBase64 format");
-    }
-
-    const formData = new FormData();
-    formData.append("image_file", Buffer.from(base64Data, "base64"), {
-      filename: "image.png",
-      contentType: "image/png",
-    });
-
-    const res = await axios.post(
-      "https://clipdrop-api.co/remove-background/v1",
-      formData,
-      {
-        headers: {
-          "x-api-key": CLIPDROP_KEY,
-          ...formData.getHeaders(),
-        },
-        responseType: "arraybuffer",
-      }
-    );
-
-    return Buffer.from(res.data, "binary").toString("base64");
-  } catch (err) {
-    console.error("Remove Background Error:", err.response?.data || err);
-    throw new Error("Background removal failed");
-  }
-};
-
-// Remove Object API
-// POST /api/ai/remove-object
-export const removeObject = async (req, res, next) => {
-  try {
-    const userId = req.user?.id;
-    const { imageBase64, maskBase64 } = req.body; // both base64 strings
-
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        error: "Unauthorized",
-        statusCode: 401,
-      });
-    }
-
-    if (!imageBase64 || !maskBase64) {
-      return res.status(400).json({
-        success: false,
-        error: "Please provide imageBase64 and maskBase64",
-        statusCode: 400,
-      });
-    }
-
-    // Call ClipDrop service
-    const resultBase64 = await clipdropRemoveObject(imageBase64, maskBase64);
-    const resultImage = `data:image/png;base64,${resultBase64}`;
-
-    // Upload to Cloudinary
-    const { secure_url } = await cloudinary.uploader.upload(resultImage);
-
-    // Save to database
-    await pool.query(
-      `INSERT INTO creations (user_id, prompt, content, type)
-       VALUES (?, ?, ?, 'image')`,
-      [userId, "Removed Object", secure_url]
-    );
-
-    res.status(200).json({
-      success: true,
-      data: { image: secure_url },
-      message: "Object removed and saved successfully",
-    });
-  } catch (error) {
-    console.error("Remove Object Error:", error);
     next(error);
   }
 };

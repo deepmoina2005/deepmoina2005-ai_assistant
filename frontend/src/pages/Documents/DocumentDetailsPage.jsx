@@ -9,7 +9,6 @@ import Tabs from "../../components/common/Tabs";
 import AIActions from "../../components/ai/AIActions";
 import FlashcardManager from "../../components/flashcards/FlashcardManager";
 import QuizManager from "../../components/quizzes/QuizManager";
-// import ChatInterface from "../../components/chat/ChatInterface";
 
 const DocumentDetailsPage = () => {
   const { id } = useParams();
@@ -88,12 +87,6 @@ const DocumentDetailsPage = () => {
       </div>
     );
   };
-
-  // const renderChat = () => {
-  //   return (
-  //     <ChatInterface />
-  //   )
-  // };
 
   const renderAIActions = () => {
     return <AIActions />;

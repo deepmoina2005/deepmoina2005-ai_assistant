@@ -1,28 +1,17 @@
 CREATE DATABASE IF NOT EXISTS ai_assistant;
 USE ai_assistant;
 
--- =========================
--- 1. USERS TABLE
--- =========================
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-
-    -- backend expects camelCase
-    profileImage VARCHAR(255) DEFAULT NULL,
-
     created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
+    ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
--- =========================
--- 2. DOCUMENTS TABLE
--- =========================
 CREATE TABLE documents (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -44,9 +33,6 @@ CREATE TABLE documents (
         ON DELETE CASCADE
 );
 
--- =========================
--- 3. DOCUMENT CHUNKS
--- =========================
 CREATE TABLE document_chunks (
     id INT NOT NULL AUTO_INCREMENT,
     document_id INT NOT NULL,
@@ -61,9 +47,6 @@ CREATE TABLE document_chunks (
         ON DELETE CASCADE
 );
 
--- =========================
--- 4. FLASHCARDS
--- =========================
 CREATE TABLE flashcards (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -84,9 +67,6 @@ CREATE TABLE flashcards (
         ON DELETE CASCADE
 );
 
--- =========================
--- 5. FLASHCARD ITEMS
--- =========================
 CREATE TABLE flashcard_items (
     id INT NOT NULL AUTO_INCREMENT,
     flashcard_id INT NOT NULL,
@@ -104,9 +84,6 @@ CREATE TABLE flashcard_items (
         ON DELETE CASCADE
 );
 
--- =========================
--- 6. CARDS
--- =========================
 CREATE TABLE cards (
     id INT NOT NULL AUTO_INCREMENT,
     flashcard_set_id INT NOT NULL,
@@ -124,9 +101,6 @@ CREATE TABLE cards (
         ON DELETE CASCADE
 );
 
--- =========================
--- 7. QUIZZES
--- =========================
 CREATE TABLE quizzes (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -153,9 +127,6 @@ CREATE TABLE quizzes (
         ON DELETE CASCADE
 );
 
--- =========================
--- 8. QUIZ QUESTIONS
--- =========================
 CREATE TABLE quiz_questions (
     id INT NOT NULL AUTO_INCREMENT,
     quiz_id INT NOT NULL,
@@ -171,9 +142,6 @@ CREATE TABLE quiz_questions (
         ON DELETE CASCADE
 );
 
--- =========================
--- 9. QUIZ USER ANSWERS
--- =========================
 CREATE TABLE quiz_user_answers (
     id INT NOT NULL AUTO_INCREMENT,
     quiz_id INT NOT NULL,
@@ -189,9 +157,6 @@ CREATE TABLE quiz_user_answers (
         ON DELETE CASCADE
 );
 
--- =========================
--- 10. QUIZ OPTIONS
--- =========================
 CREATE TABLE quiz_options (
     id INT NOT NULL AUTO_INCREMENT,
     question_id INT NOT NULL,
@@ -205,14 +170,10 @@ CREATE TABLE quiz_options (
         ON DELETE CASCADE
 );
 
--- =========================
--- 11. CREATIONS (AI OUTPUTS)
--- =========================
 CREATE TABLE creations (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
 
-    -- backend-safe
     title VARCHAR(255) NULL,
     prompt TEXT NULL,
 
@@ -230,6 +191,3 @@ CREATE TABLE creations (
         FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
 );
-
-ALTER TABLE users
-ADD COLUMN profile_image VARCHAR(255) NULL;

@@ -39,19 +39,6 @@ const generateSummary = async (documentId) => {
     }
 }
 
-const chat = async (documentId, message) => {
-    try {
-        const response = await axiosInstance.post(API_PATHS.AI.CHAT, {
-            documentId,
-            question: message
-        });
-
-        return response.data;
-    } catch (error) {
-        throw error.response?.data || { message: 'Chat request failed'}
-    }
-}
-
 const explainConcept = async (documentId, concept) => {
     try {
         const response = await axiosInstance.post(API_PATHS.AI.EXPLAIN_CONCEPT, {
@@ -103,42 +90,14 @@ const generateImage = async (prompt, publish = false) => {
     }
 };
 
-const removeBackground = async (imageBase64) => {
-    try {
-        const response = await axiosInstance.post(API_PATHS.AI.REMOVE_BACKGROUND, {
-            imageBase64
-        });
-
-        return response.data?.data; // { image: base64 or url }
-    } catch (error) {
-        throw error.response?.data || { message: "Failed to remove background" };
-    }
-};
-
-const removeObject = async (imageBase64, maskBase64) => {
-    try {
-        const response = await axiosInstance.post(API_PATHS.AI.REMOVE_BACKGROUND, {
-            imageBase64,
-            maskBase64
-        });
-
-        return response.data?.data; // { image: base64 or url }
-    } catch (error) {
-        throw error.response?.data || { message: "Failed to remove object" };
-    }
-};
-
 const aiService = {
     generateFlashcards,
     generateQuiz,
     generateSummary,
-    chat,
     explainConcept,
     getChatHistory,
     generateArticle,
-    generateImage,
-    removeBackground,
-    removeObject    
+    generateImage
 };
 
 export default aiService;
